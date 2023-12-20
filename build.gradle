@@ -1,0 +1,36 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.google.cloud.tools.jib' version '4.3.0'
+}
+
+allprojects {
+    group = "com.fastcampus.featureflag"
+    version = "0.0.1-SNAPSHOT"
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+java {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+subprojects {
+    apply {
+        plugin("org.springframework.boot")
+        plugin("io.spring.dependency-management")
+        plugin("com.google.cloud.tools.jib")
+    }
+}

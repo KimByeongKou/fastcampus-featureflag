@@ -1,0 +1,10 @@
+plugins {
+    id("de.fayard.refreshVersions") version "0.40.2"
+}
+rootProject.name = "fastcampus-featureflag"
+
+include 'featureflag-app'
+include 'featureflag-adapter'
+include 'featureflag-domain'
+include 'featureflag-usecase'
+

@@ -1,0 +1,40 @@
+spring:
+  config:
+    import: application-adapter.yaml
+
+# Path: featureflag-app/src/main/resources/application-local.yaml
+
+springdoc:
+  swagger-ui:
+    defaultModelExpandDepth: 3
+    defaultModelRendering: model
+  cache:
+    disabled: true
+  paths-to-match:
+    - /api/**
+
+management:
+  server:
+    port: 9292
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      enabled: true
+      group:
+        readiness:
+          show-components: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+    enabled-by-default: false

@@ -1,0 +1,39 @@
+plugins {
+    id 'application'
+    id 'com.google.cloud.tools.jib' version '3.3.2'
+}
+
+dependencies {
+    implementation project(':featureflag-adapter')
+    implementation project(':featureflag-usecase')
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // monitoring
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus:_'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jib {
+    setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflag')
+    from {
+        image = 'openjdk:17-ea-jdk'
+        platforms {
+            platform {
+                architecture = 'arm64'
+                os = 'linux'
+            }
+        }
+    }
+    to {
+        image = "${project.name}-${project.version}".toLowerCase()
+    }
+    container {
+        ports = ['8080']
+        jvmFlags = ['-Xms512m', '-Xmx512m', '-Dspring.profiles.active=local', '-XX:+UseContainerSupport', '-Dserver.port=8080', '-Dfile.encoding=UTF-8']
+    }
+}
