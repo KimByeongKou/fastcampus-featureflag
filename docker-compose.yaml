@@ -1,0 +1,28 @@
+version: '3'
+services:
+  featureflag-service:
+    image: featureflag-app:0.0.1-SNAPSHOT
+    networks:
+      - fastcampuspay_network
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/fastcampus_pay?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=mysqluser
+      - SPRING_DATASOURCE_PASSWORD=mysqlpw
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - FEATUREFLAG_ENGINE_URI=featureflag-engine:8013
+
+  featureflag-engine:
+    image:  ghcr.io/open-feature/flagd:latest
+    networks:
+      - fastcampuspay_network
+    ports:
+        - "8013:8013"
+    environment:
+      - URI=featureflag-service:8080
+
+networks:
+  fastcampuspay_network:
+    driver: bridge
