@@ -39,15 +39,15 @@ public class FeatureflagAdapterConfig {
                 .maxCacheSize(1000)
                 .retryBackoffMs(100)
                 .deadline(3000)
-                .cacheType(Config.LRU_CACHE)
+                .cacheType("myCache")
                 .build()
+            , featureflagCounter()
         );
         OpenFeatureAPI api = OpenFeatureAPI.getInstance();
         api.setProviderAndWait(flagd);
         return api.getClient();
     }
 
-    @Bean
     public FeatureflagCounter featureflagCounter() {
         return FeatureflagCounter.standard(registry);
     }

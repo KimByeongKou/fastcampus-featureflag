@@ -1,5 +1,6 @@
 package dev.openfeature.contrib.providers.flagd;
 
+import com.fastcampus.featureflag.adapter.metric.FeatureflagCounter;
 import com.fastcampus.featureflag.adapter.openfeatureflag.cache.MyCache;
 import dev.openfeature.contrib.providers.flagd.resolver.Resolver;
 import dev.openfeature.contrib.providers.flagd.resolver.grpc.GrpcResolver;
@@ -25,11 +26,13 @@ public class FlagdProvider extends EventProvider implements FeatureProvider {
 
     private EvaluationContext evaluationContext;
 
+
     /**
      * Create a new FlagdProvider instance with default options.
      */
+    @Deprecated
     public FlagdProvider() {
-        this(dev.openfeature.contrib.providers.flagd.FlagdOptions.builder().build());
+        this(dev.openfeature.contrib.providers.flagd.FlagdOptions.builder().build(), null);
     }
 
     /**
@@ -37,7 +40,7 @@ public class FlagdProvider extends EventProvider implements FeatureProvider {
      *
      * @param options {@link dev.openfeature.contrib.providers.flagd.FlagdOptions} with
      */
-    public FlagdProvider(final FlagdOptions options) {
+    public FlagdProvider(final FlagdOptions options, FeatureflagCounter featureflagCounter) {
         switch (options.getResolverType()) {
             case IN_PROCESS:
                 this.flagResolver = new InProcessResolver(options, this::setState);
@@ -45,7 +48,7 @@ public class FlagdProvider extends EventProvider implements FeatureProvider {
             case RPC:
                 this.flagResolver =
                         new GrpcResolver(options,
-                                new MyCache(options.getCacheType(), options.getMaxCacheSize()),
+                                new MyCache(options.getCacheType(), options.getMaxCacheSize(), featureflagCounter),
                                 this::getState,
                                 this::setState);
                 break;
