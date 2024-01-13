@@ -1,7 +1,7 @@
 package dev.openfeature.contrib.providers.flagd.resolver.grpc;
 
+import com.fastcampus.featureflag.adapter.openfeatureflag.cache.MyCache;
 import com.google.protobuf.Value;
-import dev.openfeature.contrib.providers.flagd.resolver.grpc.cache.Cache;
 import dev.openfeature.flagd.grpc.Schema.EventStreamResponse;
 import dev.openfeature.sdk.ProviderState;
 import io.grpc.stub.StreamObserver;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 class EventStreamObserver implements StreamObserver<EventStreamResponse> {
     private final Consumer<ProviderState> stateConsumer;
     private final Object sync;
-    private final Cache cache;
+    private final MyCache cache;
 
     private static final String CONFIGURATION_CHANGE = "configuration_change";
     private static final String PROVIDER_READY = "provider_ready";
@@ -30,7 +30,7 @@ class EventStreamObserver implements StreamObserver<EventStreamResponse> {
      * @param cache                cache to update
      * @param stateConsumer        lambda to call for setting the state
      */
-    EventStreamObserver(Object sync, Cache cache, Consumer<ProviderState> stateConsumer) {
+    EventStreamObserver(Object sync, MyCache cache, Consumer<ProviderState> stateConsumer) {
         this.sync = sync;
         this.cache = cache;
         this.stateConsumer = stateConsumer;

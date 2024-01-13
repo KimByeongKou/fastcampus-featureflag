@@ -1,9 +1,9 @@
 package dev.openfeature.contrib.providers.flagd.resolver.grpc;
 
+import com.fastcampus.featureflag.adapter.openfeatureflag.cache.MyCache;
 import dev.openfeature.contrib.providers.flagd.FlagdOptions;
 import dev.openfeature.contrib.providers.flagd.resolver.common.ChannelBuilder;
 import dev.openfeature.contrib.providers.flagd.resolver.common.Util;
-import dev.openfeature.contrib.providers.flagd.resolver.grpc.cache.Cache;
 import dev.openfeature.flagd.grpc.Schema;
 import dev.openfeature.flagd.grpc.ServiceGrpc;
 import dev.openfeature.sdk.ProviderState;
@@ -34,7 +34,7 @@ public class GrpcConnector {
     private final int startEventStreamRetryBackoff;
     private final long deadline;
 
-    private final Cache cache;
+    private final MyCache cache;
     private final Consumer<ProviderState> stateConsumer;
 
     private int eventStreamAttempt = 1;
@@ -50,7 +50,7 @@ public class GrpcConnector {
      * @param cache         cache to use.
      * @param stateConsumer lambda to call for setting the state.
      */
-    public GrpcConnector(final FlagdOptions options, final Cache cache, Consumer<ProviderState> stateConsumer) {
+    public GrpcConnector(final FlagdOptions options, final MyCache cache, Consumer<ProviderState> stateConsumer) {
         this.channel = ChannelBuilder.nettyChannel(options);
         this.serviceStub = ServiceGrpc.newStub(channel);
         this.serviceBlockingStub = ServiceGrpc.newBlockingStub(channel);

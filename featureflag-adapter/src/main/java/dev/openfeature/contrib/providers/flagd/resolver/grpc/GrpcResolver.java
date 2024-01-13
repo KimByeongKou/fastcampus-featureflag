@@ -1,9 +1,9 @@
 package dev.openfeature.contrib.providers.flagd.resolver.grpc;
 
+import com.fastcampus.featureflag.adapter.openfeatureflag.cache.MyCache;
 import com.google.protobuf.*;
 import dev.openfeature.contrib.providers.flagd.FlagdOptions;
 import dev.openfeature.contrib.providers.flagd.resolver.Resolver;
-import dev.openfeature.contrib.providers.flagd.resolver.grpc.cache.Cache;
 import dev.openfeature.contrib.providers.flagd.resolver.grpc.strategy.ResolveFactory;
 import dev.openfeature.contrib.providers.flagd.resolver.grpc.strategy.ResolveStrategy;
 import dev.openfeature.flagd.grpc.Schema;
@@ -30,7 +30,7 @@ import static dev.openfeature.contrib.providers.flagd.Config.*;
 public final class GrpcResolver implements Resolver {
 
     private final dev.openfeature.contrib.providers.flagd.resolver.grpc.GrpcConnector connector;
-    private final Cache cache;
+    private final MyCache cache;
     private final ResolveStrategy strategy;
     private final Supplier<ProviderState> stateSupplier;
 
@@ -42,7 +42,7 @@ public final class GrpcResolver implements Resolver {
      * @param stateSupplier lambda to call for getting the state.
      * @param stateConsumer lambda to communicate back the state.
      */
-    public GrpcResolver(final FlagdOptions options, final Cache cache, final Supplier<ProviderState> stateSupplier,
+    public GrpcResolver(final FlagdOptions options, final MyCache cache, final Supplier<ProviderState> stateSupplier,
                         final Consumer<ProviderState> stateConsumer) {
         this.cache = cache;
         this.stateSupplier = stateSupplier;

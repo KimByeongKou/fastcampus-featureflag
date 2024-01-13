@@ -1,17 +1,10 @@
 package dev.openfeature.contrib.providers.flagd;
 
+import com.fastcampus.featureflag.adapter.openfeatureflag.cache.MyCache;
 import dev.openfeature.contrib.providers.flagd.resolver.Resolver;
 import dev.openfeature.contrib.providers.flagd.resolver.grpc.GrpcResolver;
-import dev.openfeature.contrib.providers.flagd.resolver.grpc.cache.Cache;
 import dev.openfeature.contrib.providers.flagd.resolver.process.InProcessResolver;
-import dev.openfeature.sdk.EvaluationContext;
-import dev.openfeature.sdk.EventProvider;
-import dev.openfeature.sdk.FeatureProvider;
-import dev.openfeature.sdk.Metadata;
-import dev.openfeature.sdk.ProviderEvaluation;
-import dev.openfeature.sdk.ProviderEventDetails;
-import dev.openfeature.sdk.ProviderState;
-import dev.openfeature.sdk.Value;
+import dev.openfeature.sdk.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.locks.Lock;
@@ -52,7 +45,7 @@ public class FlagdProvider extends EventProvider implements FeatureProvider {
             case RPC:
                 this.flagResolver =
                         new GrpcResolver(options,
-                                new Cache(options.getCacheType(), options.getMaxCacheSize()),
+                                new MyCache(options.getCacheType(), options.getMaxCacheSize()),
                                 this::getState,
                                 this::setState);
                 break;
