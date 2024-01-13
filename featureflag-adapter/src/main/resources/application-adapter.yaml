@@ -1,4 +1,0 @@
-fastcampus:
-  featureflag:
-    adapter:
-      env1: 123
