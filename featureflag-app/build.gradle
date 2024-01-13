@@ -12,6 +12,9 @@ dependencies {
     // monitoring
     implementation 'org.springframework.boot:spring-boot-starter-actuator:_'
     implementation 'io.micrometer:micrometer-registry-prometheus:_'
+
+    implementation("io.swagger.core.v3:swagger-annotations:_")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:_")
 }
 
 test {
@@ -36,4 +39,9 @@ jib {
         ports = ['8080']
         jvmFlags = ['-Xms512m', '-Xmx512m', '-Dspring.profiles.active=local', '-XX:+UseContainerSupport', '-Dserver.port=8080', '-Dfile.encoding=UTF-8']
     }
+}
+
+tasks.bootRun {
+    systemProperty("spring.profiles.active", "local")
+    setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflagApplication')
 }

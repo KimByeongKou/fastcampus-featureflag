@@ -13,4 +13,9 @@ dependencies {
 
     // h2 for demo purpose
     runtimeOnly 'com.h2database:h2:_'
+
+    implementation 'dev.openfeature:sdk:_'
+    implementation 'dev.openfeature.contrib.providers:flagd:_'
 }
+
+tasks.bootJar { enabled = false }

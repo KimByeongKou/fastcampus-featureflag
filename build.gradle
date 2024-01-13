@@ -19,17 +19,18 @@ java {
     targetCompatibility = '17'
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
 subprojects {
     apply {
+        plugin("java")
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
         plugin("com.google.cloud.tools.jib")
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter'
+        implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.4'
+        annotationProcessor('org.projectlombok:lombok')
     }
 }
 

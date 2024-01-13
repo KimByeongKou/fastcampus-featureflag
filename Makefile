@@ -11,5 +11,7 @@ build:
 test:
 	./gradlew test -x build
 
+docker:
+	docker-compose up -d
 image:
 	./gradlew clean :featureflag-app:jibDockerBuild
