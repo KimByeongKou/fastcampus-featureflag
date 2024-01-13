@@ -7,10 +7,10 @@ dependencies {
     implementation project(':featureflag-adapter')
     implementation project(':featureflag-usecase')
 
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web:_'
 
     // monitoring
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:_'
     implementation 'io.micrometer:micrometer-registry-prometheus:_'
 }
 
@@ -19,9 +19,9 @@ test {
 }
 
 jib {
-    setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflag')
+    setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflagApplication')
     from {
-        image = 'openjdk:17-ea-jdk'
+        image = "amazoncorretto:17"
         platforms {
             platform {
                 architecture = 'arm64'
@@ -30,7 +30,7 @@ jib {
         }
     }
     to {
-        image = "${project.name}-${project.version}".toLowerCase()
+        image = "${project.name}".toLowerCase()+ ":${project.version}"
     }
     container {
         ports = ['8080']

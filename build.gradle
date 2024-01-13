@@ -1,5 +1,3 @@
-import org.springframework.boot.gradle.tasks.bundling.BootJar
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.0'
@@ -34,3 +32,6 @@ subprojects {
         plugin("com.google.cloud.tools.jib")
     }
 }
+
+tasks.jar { enabled = true }
+tasks.bootJar { enabled = false }
