@@ -1,4 +1,4 @@
-package com.fastcampus.featureflag.adapter.openfeature.flagd;
+package com.fastcampus.featureflag.adapter.openfeatureflag;
 
 import com.fastcampus.featureflag.usecase.port.GetStringValuePort;
 import dev.openfeature.sdk.Client;

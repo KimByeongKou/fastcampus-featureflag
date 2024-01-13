@@ -37,7 +37,25 @@ jib {
     }
     container {
         ports = ['8080']
-        jvmFlags = ['-Xms512m', '-Xmx512m', '-Dspring.profiles.active=local', '-XX:+UseContainerSupport', '-Dserver.port=8080', '-Dfile.encoding=UTF-8']
+        jvmFlags = [
+                "-server",
+                "-Xms4g",
+                "-Xmx4g",
+                "-Dspring.profiles.active=local",
+                "-XX:+UseContainerSupport",
+                "-XX:InitialRAMPercentage=60.0",
+                "-XX:MaxRAMPercentage=60.0",
+                "-XX:+UseZGC",
+                "-XX:+DisableExplicitGC",
+                "-XX:MetaspaceSize=256M",
+                "-XX:MaxMetaspaceSize=256M",
+                "-Duser.timezone=UTC",
+                "-Djava.net.preferIPv4Stack=true",
+                "-Djava.net.preferIPv6Addresses=false",
+                "-Dnetworkaddress.cache.ttl=0",
+                "-Dnetworkaddress.cache.negative.ttl=0",
+                ]
+        // jvmFlags = [, '-Dspring.profiles.active=local', '-XX:+UseContainerSupport', '-Dserver.port=8080', '-Dfile.encoding=UTF-8']
     }
 }
 
