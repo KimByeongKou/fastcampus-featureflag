@@ -8,8 +8,8 @@ run:
 build:
 	./gradlew build -x test
 
-test:
-	./gradlew test -x build
+tester:
+	./gradlew :featureflag-app:tester:bootRun
 
 docker:
 	docker-compose up -d

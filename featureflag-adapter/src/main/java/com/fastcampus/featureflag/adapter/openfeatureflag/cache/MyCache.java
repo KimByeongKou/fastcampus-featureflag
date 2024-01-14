@@ -58,6 +58,7 @@ public class MyCache {
             cacheType = "LRU";
         } else {
             enabled = true;
+            logger.info("Using ehcache");
             cacheType = "MyCache";
             CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);
             myCache = cacheManager.createCache("myCache",

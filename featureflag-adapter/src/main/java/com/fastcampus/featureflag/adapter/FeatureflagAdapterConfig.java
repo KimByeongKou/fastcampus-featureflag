@@ -39,7 +39,7 @@ public class FeatureflagAdapterConfig {
                 .maxCacheSize(1000)
                 .retryBackoffMs(100)
                 .deadline(3000)
-                .cacheType("myCache")
+                .cacheType("MyCache")
                 .build()
             , featureflagCounter()
         );

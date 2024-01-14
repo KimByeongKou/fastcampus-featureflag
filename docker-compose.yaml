@@ -14,7 +14,9 @@ services:
 
   featureflag-engine:
     image:  ghcr.io/open-feature/flagd:latest
-    command: start --uri https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
+    command: start  --uri file:./etc/flagd/example_flags.json #--uri https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
+    volumes:
+      - ./flagd:/etc/flagd
     networks:
       - fastcampuspay_network
     stdin_open: true
