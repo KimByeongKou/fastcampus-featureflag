@@ -7,6 +7,4 @@ include 'featureflag-app'
 include 'featureflag-adapter'
 include 'featureflag-domain'
 include 'featureflag-usecase'
-include 'featureflag-app:tester'
-findProject(':featureflag-app:tester')?.name = 'tester'
 

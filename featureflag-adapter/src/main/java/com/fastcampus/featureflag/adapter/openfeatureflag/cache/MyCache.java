@@ -18,10 +18,10 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
-import static dev.openfeature.contrib.providers.flagd.resolver.grpc.cache.CacheType.DISABLED;
-import static dev.openfeature.contrib.providers.flagd.resolver.grpc.cache.CacheType.LRU;
+import static dev.openfeature.contrib.providers.flagd.resolver.grpc.cache.CacheType.*;
 
 /**
  * Exposes caching mechanism for flag evaluations.
@@ -41,6 +41,8 @@ public class MyCache {
 
     private final FeatureflagCounter counter;
 
+    private int cacheSize;
+
     /**
      * Initialize the cache.
      *
@@ -49,17 +51,19 @@ public class MyCache {
      */
     public MyCache(final String forType, int maxCacheSize, FeatureflagCounter featureflagCounter) {
         counter = featureflagCounter;
+        cacheSize = maxCacheSize;
         if (DISABLED.getValue().equals(forType)) {
             enabled = false;
             cacheType = null;
         } else if (LRU.getValue().equals(forType)) {
             enabled = true;
+            logger.info("Using lru cache");
             this.lruCache = Collections.synchronizedMap(new LRUMap<>(maxCacheSize));
             cacheType = "LRU";
-        } else {
+        } else if (CUSTOM.getValue().equals(forType)) {
             enabled = true;
             logger.info("Using ehcache");
-            cacheType = "MyCache";
+            cacheType = "CUSTOM";
             CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build(true);
             myCache = cacheManager.createCache("myCache",
                 CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, ProviderEvaluation.class,
@@ -90,19 +94,21 @@ public class MyCache {
                         // key, value 에 대해서 "가능하면, 최대한" 삭제하지 말라는 의미.
                         // 최대한 삭제를 피하기 위해서는 true
                         // 웬만하면 삭제하기 위해서는 false
-                        if(key.startsWith("test")) {
+                        if(!key.startsWith("test")) {
                             return false;
                         }
                         else return !key.startsWith("fast");
                     })
                     .build());
+        } else{
+            throw new IllegalArgumentException("Unsupported cache type");
         }
     }
 
     public void put(String key, ProviderEvaluation<?> value) {
         if (cacheType.equals("LRU")) {
             this.lruCache.put(key, value);
-        } else if (cacheType.equals("MyCache")){
+        } else if (cacheType.equals("CUSTOM")){
             this.myCache.put(key, value);
         }
     }
@@ -111,25 +117,34 @@ public class MyCache {
         ProviderEvaluation<?> result = null;
         if (cacheType.equals("LRU")) {
             result = this.lruCache.get(key);
-        } else if (cacheType.equals("MyCache")){
+
+        } else if (cacheType.equals("CUSTOM")){
             result = this.myCache.get(key);
         }
 
         if (result == null) {
-            logger.info("cache miss");
+            if (cacheType.equals("LRU")) {
+                if(this.lruCache.size() == cacheSize) counter.incrementEvictionCount();
+            }
+//            if (cacheType.equals("CUSTOM")) {
+//                AtomicInteger count = new AtomicInteger();
+//                this.myCache.forEach(entry -> {
+//                    count.getAndIncrement();
+//                });
+//                if(count.get() == cacheSize) counter.incrementEvictionCount();
+//            }
+
             counter.incrementCacheMiss();
         } else {
-            logger.info("cache hit");
             counter.incrementCacheHit();
         }
-
         return result;
     }
 
     public void remove(String key) {
         if (cacheType.equals("LRU")) {
             this.lruCache.remove(key);
-        } else if (cacheType.equals("MyCache")){
+        } else if (cacheType.equals("CUSTOM")){
             this.myCache.remove(key);
         }
     }
@@ -137,7 +152,7 @@ public class MyCache {
     public void clear() {
         if (cacheType.equals("LRU")) {
             this.lruCache.clear();
-        } else if (cacheType.equals("MyCache")){
+        } else if (cacheType.equals("CUSTOM")){
             this.myCache.clear();
         }
     }

@@ -1,0 +1,17 @@
+{
+	"ulid": "01HNQ34DAAN4PEYA3WX6K86CVG",
+	"minTime": 1706940000000,
+	"maxTime": 1706947200000,
+	"stats": {
+		"numSamples": 13806,
+		"numSeries": 115,
+		"numChunks": 167
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01HNQ34DAAN4PEYA3WX6K86CVG"
+		]
+	},
+	"version": 1
+}

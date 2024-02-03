@@ -11,10 +11,13 @@ services:
     environment:
       - FEATUREFLAG_ENGINE_HOST=featureflag-engine
       - FEATUREFLAG_ENGINE_PORT=8013
+      - CACHE_TYPE=custom # lru / custom
+      - MAX_CACHE_SIZE=10000
 
   featureflag-engine:
     image:  ghcr.io/open-feature/flagd:latest
-    command: start  --uri file:./etc/flagd/example_flags.json #--uri https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
+    # command: start  --uri file:./etc/flagd/example_flags.json #--uri https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
+    command: start  --uri file:./etc/flagd/gen.json #--uri https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
     volumes:
       - ./flagd:/etc/flagd
     networks:

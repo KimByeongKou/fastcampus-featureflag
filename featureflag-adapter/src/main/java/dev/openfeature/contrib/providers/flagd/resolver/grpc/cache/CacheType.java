@@ -8,7 +8,8 @@ import lombok.Getter;
 @Getter
 public enum CacheType {
     DISABLED("disabled"),
-    LRU("lru");
+    LRU("lru"),
+    CUSTOM("custom");
 
     private final String value;
 

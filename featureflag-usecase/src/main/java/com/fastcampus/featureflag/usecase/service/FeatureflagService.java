@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class FeatureflagService {
     private final GetStringValuePort getStringValuePort;
-
     public String getStringFlag(String key) throws Exception {
         return getStringValuePort.getStringValue(new GetStringValuePort.GetStringValuePortRequest(key));
     }

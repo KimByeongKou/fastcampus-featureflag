@@ -15,6 +15,7 @@ dependencies {
 
     implementation("io.swagger.core.v3:swagger-annotations:_")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:_")
+    implementation 'com.google.code.gson:gson:2.8.9'
 }
 
 test {
@@ -22,7 +23,7 @@ test {
 }
 
 jib {
-    setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflagApplication')
+    setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflagApplication.kt')
     from {
         image = "amazoncorretto:17"
         platforms {
@@ -55,7 +56,6 @@ jib {
                 "-Dnetworkaddress.cache.ttl=0",
                 "-Dnetworkaddress.cache.negative.ttl=0",
                 ]
-        // jvmFlags = [, '-Dspring.profiles.active=local', '-XX:+UseContainerSupport', '-Dserver.port=8080', '-Dfile.encoding=UTF-8']
     }
 }
 

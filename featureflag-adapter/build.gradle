@@ -5,8 +5,6 @@ plugins {
 dependencies {
     implementation project(':featureflag-domain')
     implementation project(':featureflag-usecase')
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
     // hibernate
     implementation 'org.hibernate:hibernate-validator:_'
