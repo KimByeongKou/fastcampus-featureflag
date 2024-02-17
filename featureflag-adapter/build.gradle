@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation project(':featureflag-domain')
     implementation project(':featureflag-usecase')
 
     // hibernate

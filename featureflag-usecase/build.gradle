@@ -2,6 +2,6 @@ plugins {
     id 'java'
 }
 dependencies {
-    implementation(project(":featureflag-domain"))
+
 }
 tasks.bootJar { enabled = false }
