@@ -1,0 +1,12 @@
+version: '3'
+services:
+  featureflag-service:
+    image: featureflag-app:0.0.1-SNAPSHOT
+    networks:
+      - fastcampuspay_network
+    ports:
+      - "8080:8080"
+
+networks:
+  fastcampuspay_network:
+    driver: bridge

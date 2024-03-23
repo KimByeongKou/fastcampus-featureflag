@@ -14,3 +14,40 @@ tasks.bootRun {
     systemProperty("spring.profiles.active", "local")
     setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflagApplication')
 }
+
+jib {
+    setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflagApplication')
+    from {
+        image = "amazoncorretto:19"
+        platforms {
+            platform {
+                architecture = 'arm64'
+                os = 'linux'
+            }
+        }
+    }
+    to {
+        image = "${project.name}".toLowerCase()+ ":${project.version}"
+    }
+    container {
+        ports = ['8080']
+        jvmFlags = [
+                "-server",
+                "-Xms4g",
+                "-Xmx4g",
+                "-Dspring.profiles.active=local",
+                "-XX:+UseContainerSupport",
+                "-XX:InitialRAMPercentage=60.0",
+                "-XX:MaxRAMPercentage=60.0",
+                "-XX:+UseZGC",
+                "-XX:+DisableExplicitGC",
+                "-XX:MetaspaceSize=256M",
+                "-XX:MaxMetaspaceSize=256M",
+                "-Duser.timezone=UTC",
+                "-Djava.net.preferIPv4Stack=true",
+                "-Djava.net.preferIPv6Addresses=false",
+                "-Dnetworkaddress.cache.ttl=0",
+                "-Dnetworkaddress.cache.negative.ttl=0",
+        ]
+    }
+}

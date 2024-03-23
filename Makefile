@@ -13,5 +13,6 @@ tester:
 
 docker:
 	docker-compose up -d
+
 image:
 	./gradlew clean :featureflag-app:jibDockerBuild

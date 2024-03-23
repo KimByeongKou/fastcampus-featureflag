@@ -11,6 +11,5 @@ import org.springframework.context.annotation.Import;
 public class FastcampusFeatureflagApplication {
     public static void main(String[] args) {
         SpringApplication.run(FastcampusFeatureflagApplication.class, args);
-
     }
 }
