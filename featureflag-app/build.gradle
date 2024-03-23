@@ -8,55 +8,6 @@ dependencies {
     implementation project(':featureflag-usecase')
 
     implementation 'org.springframework.boot:spring-boot-starter-web:_'
-
-    // monitoring
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:_'
-    implementation 'io.micrometer:micrometer-registry-prometheus:_'
-
-    implementation("io.swagger.core.v3:swagger-annotations:_")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:_")
-    implementation 'com.google.code.gson:gson:2.8.9'
-}
-
-test {
-    useJUnitPlatform()
-}
-
-jib {
-    setMainClassName('com.fastcampus.featureflag.app.FastcampusFeatureflagApplication.kt')
-    from {
-        image = "amazoncorretto:17"
-        platforms {
-            platform {
-                architecture = 'arm64'
-                os = 'linux'
-            }
-        }
-    }
-    to {
-        image = "${project.name}".toLowerCase()+ ":${project.version}"
-    }
-    container {
-        ports = ['8080']
-        jvmFlags = [
-                "-server",
-                "-Xms4g",
-                "-Xmx4g",
-                "-Dspring.profiles.active=local",
-                "-XX:+UseContainerSupport",
-                "-XX:InitialRAMPercentage=60.0",
-                "-XX:MaxRAMPercentage=60.0",
-                "-XX:+UseZGC",
-                "-XX:+DisableExplicitGC",
-                "-XX:MetaspaceSize=256M",
-                "-XX:MaxMetaspaceSize=256M",
-                "-Duser.timezone=UTC",
-                "-Djava.net.preferIPv4Stack=true",
-                "-Djava.net.preferIPv6Addresses=false",
-                "-Dnetworkaddress.cache.ttl=0",
-                "-Dnetworkaddress.cache.negative.ttl=0",
-                ]
-    }
 }
 
 tasks.bootRun {

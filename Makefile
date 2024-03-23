@@ -1,6 +1,6 @@
 #!/bin/bash
 
-.PHONY: run lint build test graphqlSchema image
+.PHONY: run lint build test image
 
 run:
 	./gradlew clean :featureflag-app:bootRun
