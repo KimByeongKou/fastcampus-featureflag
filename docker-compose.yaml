@@ -6,21 +6,6 @@ services:
       - fastcampuspay_network
     ports:
       - "8080:8080"
-    environment:
-      - FEATUREFLAG_ENGINE_HOST=featureflag-engine
-      - FEATUREFLAG_ENGINE_PORT=8013
-
-  featureflag-engine:
-    image: ghcr.io/open-feature/flagd:latest
-    command: start  --uri https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
-    volumes:
-      - ./flagd:/etc/flagd
-    networks:
-      - fastcampuspay_network
-    stdin_open: true
-    tty: true
-    ports:
-        - "8013:8013"
 
 networks:
   fastcampuspay_network:
