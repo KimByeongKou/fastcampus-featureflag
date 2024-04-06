@@ -4,6 +4,12 @@ plugins {
 
 dependencies {
     implementation project(':featureflag-usecase')
+
+    // flagd SDK
+    implementation 'dev.openfeature:sdk:_'
+    implementation 'dev.openfeature.contrib.providers:flagd:_'
+
+
 }
 
 tasks.bootJar { enabled = false }
