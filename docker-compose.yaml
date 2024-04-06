@@ -10,6 +10,8 @@ services:
     environment:
       - FEATUREFLAG_ENGINE_HOST=featureflag-engine
       - FEATUREFLAG_ENGINE_PORT=8013
+      - MAX_CACHE_SIZE=10000
+      - CACHE_TYPE=custom  # lru / custom
 
   featureflag-engine:
     image: ghcr.io/open-feature/flagd:latest
