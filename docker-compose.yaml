@@ -6,13 +6,14 @@ services:
       - fastcampuspay_network
     ports:
       - "8080:8080"
+      - "9292:9292"
     environment:
       - FEATUREFLAG_ENGINE_HOST=featureflag-engine
       - FEATUREFLAG_ENGINE_PORT=8013
 
   featureflag-engine:
     image: ghcr.io/open-feature/flagd:latest
-    command: start  --uri https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
+    command: start  --uri file:./etc/flagd/gen.json # https://raw.githubusercontent.com/open-feature/flagd/main/samples/example_flags.flagd.json
     volumes:
       - ./flagd:/etc/flagd
     networks:
@@ -21,6 +22,32 @@ services:
     tty: true
     ports:
         - "8013:8013"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/config:/etc/prometheus
+      - ./prometheus/volume:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+    networks:
+      - fastcampuspay_network
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+    restart: always
+    networks:
+      - fastcampuspay_network
 
 networks:
   fastcampuspay_network:

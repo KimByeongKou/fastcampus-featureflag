@@ -9,7 +9,10 @@ dependencies {
     implementation 'dev.openfeature:sdk:_'
     implementation 'dev.openfeature.contrib.providers:flagd:_'
 
+    implementation("org.springframework.boot:spring-boot-starter-actuator:_")
+    implementation("io.micrometer:micrometer-registry-prometheus:_")
 
+    implementation 'org.ehcache:ehcache:3.10.0'
 }
 
 tasks.bootJar { enabled = false }
